@@ -1,0 +1,39 @@
+extends layout
+
+append scripts
+   script(src="javascripts/app.js")
+
+block content
+  #myModal.modal.fade(tabindex="-1" role="dialog")
+    .modal-dialog
+        .modal-content
+          .modal-header
+            button(type="button" class="close" data-dismiss="modal") x
+          .modal-body
+            #searchresults.row
+              .col-lg-12
+                table
+                  tr
+                    td#photo1 FOTO1
+                    td(width='20')
+                    td#photo2 FOTO2
+                  tr(height='20')
+                    td(colspan='2')
+                  tr
+                    td#photo3 FOTO3
+                    td(width='20')
+                    td#photo4 FOTO4
+                span#status Status
+          .modal-footer            
+            button#previous.btn.btn-primary(type='button') Anterior
+            button#next.btn.btn-primary(type='button') Siguiente
+
+  .row(style="position: absolute; left: 50%; width: 700px; margin-left:-350px; top: 50%; height: 100px; margin-top:-50px")
+    .col-lg-10
+      h3 Buscador de Imagenes
+      .form-inline
+        input(type="text" class="form-control mr-sm-1 w-75" id="searchfield" placeholder="Imagenes a buscar..." aria-label="Search")
+        button(type="button" class="btn btn-default" id="searchbutton") Buscar
+          
+
+
