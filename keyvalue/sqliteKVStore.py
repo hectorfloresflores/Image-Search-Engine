@@ -2,7 +2,7 @@ import sqlite3
 
 class SqliteKeyValue():
     
-    def __init__(self,dbFile,tableName="KeyValue"):
+    def __init__(self,dbFile,tableName='KeyValue'):
         super().__init__()
         print("Archivo de BaseDeDatos: "+dbFile)
         self._table = tableName
@@ -13,6 +13,7 @@ class SqliteKeyValue():
                 self._cur.execute('CREATE TABLE {0} (key TEXT NOT NULL, sort TEXT NOT NULL, value TEXT,  PRIMARY KEY(key,sort))'.format(self._table))
 
     def putItem(self,key,sort="none",value="{}"):
+
         self._cur.execute('INSERT OR REPLACE INTO {0} VALUES (?,?,?)'.format(self._table), (key, sort, value))
 
     def getItem(self,key,sort="none"):

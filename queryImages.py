@@ -14,6 +14,12 @@ if(len(sys.argv) < 2):
 
 for word in sys.argv[1:]:
     w = s.stem(word)
+
+    newword = labelsStore.getItem(w)
+
+    print(newword)
+    #if len(word) > 0:
+    #    print(imagesStore.getItem(word[0][0]))
     #@TODO Aqui debemos programar la logica de buscar las URLs
     #asociadas a cada palabra que nos den via la linea de comandos.
     
