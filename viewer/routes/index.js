@@ -1,8 +1,8 @@
 var express = require('express');
 var stemmer = require('porter-stemmer').stemmer;
 
-var KVS = require('../keyvalueStore/sqlite3KVS');
-//var KVS = require('../keyvalueStore/dynamoKVS');
+//var KVS = require('../keyvalueStore/sqlite3KVS');
+var KVS = require('../keyvalueStore/dynamoKVS');
 
 var router = express.Router();
 
@@ -21,23 +21,30 @@ router.get('/search/:word', async function(req, res, next) {
     list_urls = new Array()
     console.log(list_words)
     final_list = []
+
   for (let i = 0; i < list_words.length; i++) {
-      list_urls.push(kvs_labels.getItem(list_words[i]));
+
+      list_urls.push(KVS.prototype.getItem(list_words[i], "labels"));
+      //list_urls.push(kvs_labels.getItem(list_words[i]));
   }
   Promise.all(list_urls).then(items=>{
-      for (let j = 0; j < items.length; j++) {
-               for (let k = 0; k < items[j].length; k++) {
-                   imagesUrls.push(kvs_images.getItem(items[j][k].value));
-               }
-           }
       console.log(items)
+
+        for (let j = 0; j < items.length; j++) {
+            for (let k = 0; k < items[j].length; k++) {
+                imagesUrls.push(KVS.prototype.getItem(items[j][k], "images"));
+            }
+        }
+
+
       Promise.all(imagesUrls).then(result => {
-           for (let j = 0; j < result.length; j++) {
-               for (let k = 0; k < result[j].length; k++) {
-                   final_list.push(result[j][k].value);
-               }
+          console.log(result)
+
+           for (let k = 0; k < result.length; k++) {
+               final_list.push(result[k]);
            }
-           console.log(final_list)
+
+           //console.log(final_list)
         console.log("Regresando "+final_list.length+" URLs")
         res.send(JSON.stringify({results: final_list, num_results: final_list.length}))
       }).catch(error =>{

@@ -49,7 +49,7 @@ $(document).ready(function() {
     } else {
       $("#status").html(""+data.num_results+" result(s)");
 
-      console.log(data)
+      //console.log(data)
       list_urls = data.results;
         renderWithList();
 

@@ -1,25 +1,10 @@
 import boto3
 
 import boto3
+from boto3.dynamodb.conditions import Key, Attr
+
 dynamodb = boto3.client("dynamodb")
 
-print(dynamodb.put_item(TableName='labels',  Item={"key":{"SS":["1","2"]}}))
-s3 = boto3.resource('s3')
-# Print out bucket names
-for bucket in s3.buckets.all():
-    print(bucket.name)
-
-# Instantiate a table resource object without actually
-# creating a DynamoDB table. Note that the attributes of this table
-# are lazy-loaded: a request is not made nor are the attribute
-# values populated until the attributes
-# on the table resource are accessed or its load() method is called.
-table = dynamodb.Table('labels')
-
-# Print out some data about the table.
-# This will cause a request to be made to DynamoDB and its attribute
-# values will be set based on the response.
-print(table.creation_date_time)
 
 class DynamoDBKeyValue():
     
@@ -28,11 +13,16 @@ class DynamoDBKeyValue():
         print("Tabla a Utilizar: "+tableName)
         self._table = tableName
 
-    def putItem(self,key,sort="none",value="{}"):
+    def putItem(self,key, Nvalues="{}"):
+
+        dynamodb.put_item(TableName=self._table, Item={"key": {"S": key}, "values": Nvalues})
+
         return None
 
     def getItem(self,key,sort="none"):
-        return ("{}",)
+        req = dynamodb.get_item(TableName=self._table, Key={"key": {"S": key}})
+        return req
 
     def close(self):
+
         return None
