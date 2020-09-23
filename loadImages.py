@@ -16,20 +16,15 @@ labelsDS = ParseTriples("labels_en.ttl")
 
 predicate = 'http://xmlns.com/foaf/0.1/depiction'
 
-
 labelsDyna = sqliteDyna.DynamoDBKeyValue("labels")
 imagsDyna = sqliteDyna.DynamoDBKeyValue("images")
 
-#Uncoment but just run once to load all images possibles
-#Ejemplo de uso del Parser.
+
 image = imagesDS.getNext()
 couner = 0
 
 dictionary = {}
 dictionaryLabels = {}
-
-
-
 
 for i in range(0, 5000):
 
@@ -45,10 +40,10 @@ for i in range(0, 5000):
         print(image.getSubject() + " -- " + image.getObject())
 
     image = imagesDS.getNext()
-#
-# for key, value in dictionary.items():
-#     h = 0
-#     imagsDyna.putItem(key, {"S" :value})
+
+for key, value in dictionary.items():
+    h = 0
+    imagsDyna.putItem(key, {"S" :value})
 
 for i in range(0, 5000):
 
